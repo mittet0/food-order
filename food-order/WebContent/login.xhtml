@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+<h:head></h:head>
+<h:body>
+<ui:composition template="/WEB-INF/templates/basic-template.xhtml">
+	<ui:define name="content">
+		<h:panelGrid style="margin: 0 auto"  columns="4" cellpadding="5">
+	     <p:panel id="panel">
+	        <p:outputLabel style="font-weight:bold" for="username" value="Username:" />
+	        <p:inputText id="username" value="#{userView.username}" required="true" label="username">
+	            <f:validateLength minimum="3" />
+	        </p:inputText>
+	        <p:message for="username" display="icon" />
+	
+	        <p:outputLabel style="font-weight:bold" for="password" value="Password:" />
+	        <p:inputText id="password" value="#{userView.password}" label="Password" required="true">
+	            <f:validateLength minimum="3" />
+	            <p:ajax update="password" event="keyup" />
+	        </p:inputText>
+	        <p:message for="password" id="password" display="icon" />
+			
+			<p:commandButton value="Login"  update="panel" actionListener="#{userView.save}" icon="ui-icon-check" />
+	    </p:panel>
+	   </h:panelGrid>
+	  </ui:define>
+	</ui:composition>
+</h:body>
+</html>
