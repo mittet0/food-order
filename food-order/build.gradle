@@ -1,0 +1,21 @@
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+
+}
+
+dependencies {
+    compile files('./src/main/webapp/WEB-INF/lib/derbyclient.jar')
+    compile group: 'com.sun.faces', name: 'jsf-api', version: '2.2.9'
+    compile group: 'com.sun.faces', name: 'jsf-impl', version: '2.2.9'
+    compile group: 'org.glassfish', name: 'javax.faces', version: '2.2.9'
+    compile group: 'org.eclipse.persistence', name: 'javax.persistence', version: '2.1.0'
+    compile group: 'org.primefaces', name: 'primefaces', version: '5.1'
+}
+
+war {
+    webAppDirName = 'WebContent'
+}
