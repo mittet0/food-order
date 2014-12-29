@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    compile files('./src/main/webapp/WEB-INF/lib/derbyclient.jar')
+    compile files('./WebContent/WEB-INF/lib/derbyclient.jar')
     compile group: 'com.sun.faces', name: 'jsf-api', version: '2.2.9'
     compile group: 'com.sun.faces', name: 'jsf-impl', version: '2.2.9'
     compile group: 'org.glassfish', name: 'javax.faces', version: '2.2.9'
