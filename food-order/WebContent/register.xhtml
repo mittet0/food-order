@@ -5,11 +5,55 @@
     xmlns:f="http://java.sun.com/jsf/core"  
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
+	<ui:composition template="/WEB-INF/templates/basic-template.xhtml">
+		<ui:define name="content">
+		
+			<h:form>
+		        <h:messages errorClass="errorMessage" infoClass="infoMessage"
+		            warnClass="warnMessage"></h:messages>
+		        <div align="center">
+		        	<p:outputLabel value="Registration Form" style="font-weight:bold;font-size:30px;"></p:outputLabel>
+		        </div>
+		        <p:messages id="messages" showDetail="true" autoUpdate="true" />
+		        <p:panelGrid id="panel" columns="2" style="margin: 0 auto">
+		            <p:outputLabel value="Username :"></p:outputLabel>
+		            <p:inputText id="username" value="#{regBean.userName}"
+		                required="true" requiredMessage="Please Enter Username!" label="username">
+		            	<f:validateLength minimum="3" />
+		            </p:inputText>
+		 
+		            <p:outputLabel value="Password :"></p:outputLabel>
+		            <p:password id="password" value="#{regBean.password}" match="confirmPassword"
+		                required="true" requiredMessage="Please Enter Password!" label="Password" feedback="true">
+		            </p:password>
+		                
+		            <p:outputLabel value="Confirm Password :"></p:outputLabel>
+		            <p:password id="confirmPassword" label="confirmation password" required="true"></p:password>
+		 
+		            <p:outputLabel value="Name :"></p:outputLabel>
+		            <p:inputText id="name" value="#{regBean.name}"
+		                required="true" requiredMessage="Please Enter Your Name!"></p:inputText>
+		 
+		            <p:outputLabel value="Email :"></p:outputLabel>
+		            <p:inputText id="email" value="#{regBean.email}" required="true"
+		                requiredMessage="Please Enter Your Email!" validatorMessage="Invalid email format">
+		            	<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+		            </p:inputText>
+		 	 
+		            <p:outputLabel value="Address :"></p:outputLabel>
+		            <p:inputText id="address" value="#{regBean.address}" required="true"
+		                requiredMessage="Please Enter Your Address!"></p:inputText>
+					
+					<p:commandButton type="submit" value="Submit" onclick="PF('dlg2').show();" ajax="false" actionListener="#{regBean.setNewUser}" icon="ui-icon-check" />
+		            <p:commandButton type="reset" value="Reset" icon="ui-icon-closethick"/>
+		            <p:dialog header="Successful registration!" widgetVar="dlg2" modal="true" height="100" closable="false">
+					    <h:outputText value=" You will be redirected to the login page!" />
+					    <f:facet name="footer">
+			                <p:commandButton value="OK" ajax="false" action="login" />
+			            </f:facet>
+					</p:dialog> 
+		        </p:panelGrid>
+		    </h:form>
+		</ui:define>
+	</ui:composition>
 </html>

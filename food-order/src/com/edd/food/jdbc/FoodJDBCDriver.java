@@ -11,7 +11,7 @@ public class FoodJDBCDriver {
 	
 	private List<Food> foods = new ArrayList<Food>();
 	
-	public List<Food> getUserNames () {
+	public List<Food> getFoods () {
 		JDBCDriver jdbc = new JDBCDriver();
 		ResultSet rs = jdbc.executeSQLStatement("SELECT * FROM foodDB");
 		try {

@@ -9,11 +9,11 @@ import java.sql.Statement;
 public class JDBCDriver {
 		
    // JDBC driver name and database URL
-   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:derby://localhost:1527/derbyDatabase";
+   public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+   public static final String DB_URL = "jdbc:derby://localhost:1527/derbyDatabase";
    //  Database credentials
-   static final String USER = "user";
-   static final String PASS = "123";
+   public static final String USER = "user";
+   public static final String PASS = "123";
 
    //connects to DB and returns result from the sqlStatement
    public ResultSet executeSQLStatement(String sqlStatement) {

@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">  
 		<ui:composition template="/WEB-INF/templates/basic-template.xhtml">
 			<ui:define name="content">
-				<p:dataTable value="#{bean.foods}" var="food" border="1">
+				<p:dataTable value="#{foodBean.foods}" var="food" border="1">
 				    <p:column>
 				        <f:facet name="header">
 				            <h:outputText value="Food Name"></h:outputText>
