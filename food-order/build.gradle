@@ -1,6 +1,7 @@
 apply plugin: 'war'
 apply plugin: 'jetty'
-apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
 
 repositories {
     mavenCentral()
@@ -18,4 +19,15 @@ dependencies {
 
 war {
     webAppDirName = 'WebContent'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'src'
+        }
+    }
 }
