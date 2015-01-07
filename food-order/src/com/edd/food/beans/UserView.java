@@ -14,6 +14,7 @@ public class UserView {
 	private String name;
 	private String address;
 	private String phoneNumber;
+	private boolean isLoggedIn;
 	
 	public String getUsername() {
 		return username;
@@ -52,6 +53,12 @@ public class UserView {
 	
 	public void login() {
 		
+	}
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+	public void setLoggedIn(boolean isLoggedIn) {
+		this.isLoggedIn = isLoggedIn;
 	}
 	
 }

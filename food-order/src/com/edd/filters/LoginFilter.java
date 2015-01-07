@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.edd.food.beans.UserBean;
+import com.edd.food.beans.UserView;
 
 /**
  * Filter checks if LoginBean has loginIn property set to true. If it is not set
@@ -25,13 +25,13 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		// Get the userBean from session attribute
-		UserBean userBean = (UserBean) ((HttpServletRequest) request)
+		UserView user = (UserView) ((HttpServletRequest) request)
 				.getSession().getAttribute("userBean");
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		String url = req.getRequestURI();
 		
-		if (userBean == null || !userBean.isLoggedIn()) {
+		if (user == null || !user.isLoggedIn()) {
 			if (url.indexOf("/logout.xhtml") >= 0
 					|| url.indexOf("/food.xhtml") >= 0) {
 				res.sendRedirect(req.getContextPath() + "/logged/login.xhtml");
