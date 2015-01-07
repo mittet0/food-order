@@ -11,31 +11,24 @@
 <ui:composition template="/WEB-INF/templates/basic-template.xhtml">
 	<ui:define name="content">
 	<h:form>
-		<h:panelGrid style="margin: 0 auto"  columns="4" cellpadding="5">
-	     <p:panel id="panel">
-	     
-			
-	        <p:outputLabel style="font-weight:bold" for="username" value="Username:" />
-	        <p:inputText id="username" value="#{userView.username}" required="true" label="username">
-	        </p:inputText>
-	        <p:message for="username" display="icon" />
-	
+		<p:panel id="panel">
+	    <h:panelGrid style="margin: 0 auto"  columns="2" cellpadding="5">
+		 	<p:outputLabel style="font-weight:bold" for="username" value="Username:" />
+	        <p:inputText id="username" value="#{userView.username}" required="true" label="username" />
+	        
 	        <p:outputLabel style="font-weight:bold" for="password" value="Password:" />
-	        <p:inputText id="password" value="#{userView.password}" label="Password" required="true">
-	        </p:inputText>
-	        <p:message for="password" class="password" display="icon" />
+	        <p:inputText id="password" value="#{userView.password}" label="password" required="true" />
+	        
+			<p:commandButton value="Back" action="index" ajax="false" icon="ui-icon-arrowreturnthick-1-w" />
+			<p:commandButton value="Login" action="#{userView.login}" ajax="false" icon="ui-icon-check" update="panel" />
 			
-			<p:commandButton type="submit" value="Login" onclick="PF('dlg1').show(); return false;" ajax="false" actionListener="#{userView.login}" icon="ui-icon-check" />
-		 	<p:dialog header="Successful login!" widgetVar="dlg1" showEffect="explode" hideEffect="bounce" height="100" closable="false">
-			    <h:outputText value=" You will be redirected to the home page!" />
-			    <f:facet name="footer">
-	                <p:commandButton value="OK" ajax="false" action="home?faces-redirect=true" />
-	            </f:facet>
-			</p:dialog> 
-	    </p:panel>
-	   </h:panelGrid>
-	    </h:form>
-	  </ui:define>
-	</ui:composition>
+		</h:panelGrid>
+		<h:panelGrid style="margin: 0 auto"  columns="1" cellpadding="4">
+			<p:messages id="errors" style="margin: 0 auto" showDetails="true"/>
+		</h:panelGrid>
+		</p:panel>
+	</h:form>
+	</ui:define>
+</ui:composition>
 </h:body>
 </html>

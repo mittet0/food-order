@@ -9,12 +9,12 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class UserView {
 
+	public static final String AUTH_KEY = "app.user.name";
 	private String username;
 	private String password;
 	private String name;
 	private String address;
 	private String phoneNumber;
-	private boolean isLoggedIn;
 	
 	public String getUsername() {
 		return username;
@@ -51,14 +51,30 @@ public class UserView {
                 new FacesMessage("Welcome " + username + " " + password));
     }
 	
-	public void login() {
-		
+	public String login() {
+		//must be added logic to evaluate user from the database
+		 if (username.equals("mitko")) {
+			 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
+				        AUTH_KEY, username);
+			 return "/restricted/home"; 
+		 } else {
+			 FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+		        .remove(AUTH_KEY);
+			 FacesContext.getCurrentInstance().addMessage(null, 
+					 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password!", 
+							 ""));
+			 return "login";
+		 }
 	}
 	public boolean isLoggedIn() {
-		return isLoggedIn;
+		return FacesContext.getCurrentInstance().getExternalContext()
+		        .getSessionMap().get(AUTH_KEY) != null;
 	}
-	public void setLoggedIn(boolean isLoggedIn) {
-		this.isLoggedIn = isLoggedIn;
+	
+	public String logout() {
+	    FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+	        .remove(AUTH_KEY);
+	    return "/index?faces-redirect=true";
 	}
 	
 }

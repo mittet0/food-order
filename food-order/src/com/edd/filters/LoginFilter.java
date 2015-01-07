@@ -25,27 +25,35 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		// Get the userBean from session attribute
-		UserView user = (UserView) ((HttpServletRequest) request)
-				.getSession().getAttribute("userBean");
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse res = (HttpServletResponse) response;
-		String url = req.getRequestURI();
+
+		if (((HttpServletRequest) request).getSession().getAttribute(
+	        UserView.AUTH_KEY) == null) {
+	      ((HttpServletResponse) response).sendRedirect("/login?faces-redirect=true");
+	    } else {
+	      chain.doFilter(request, response);
+	    }
 		
-		if (user == null || !user.isLoggedIn()) {
-			if (url.indexOf("/logout.xhtml") >= 0
-					|| url.indexOf("/food.xhtml") >= 0) {
-				res.sendRedirect(req.getContextPath() + "/logged/login.xhtml");
-			} else {
-				chain.doFilter(request, response);
-			}
-		} else {
+		//		UserView user = (UserView) ((HttpServletRequest) request)
+//				.getSession().getAttribute("userBean");
+//		HttpServletRequest req = (HttpServletRequest) request;
+//		HttpServletResponse res = (HttpServletResponse) response;
+//		String url = req.getRequestURI();
+//		
+//		if (user == null || !user.isLoggedIn()) {
+//			if (url.indexOf("/logout.xhtml") >= 0
+//					|| url.indexOf("/food.xhtml") >= 0) {
+//				res.sendRedirect(req.getContextPath() + "/logged/login.xhtml");
+//			} else {
+//				chain.doFilter(request, response);
+//			}
+//		} else {
 //			if (url.indexOf("/logout.xhtml") >= 0) {
 //				req.getSession().removeAttribute("userBean");
 //				res.sendRedirect(req.getContextPath() + "/login.xhtml");
 //			} else {
-				chain.doFilter(request, response);
+//				chain.doFilter(request, response);
 //			}
-		}
+		
 	}
 
 	public void init(FilterConfig config) throws ServletException {
