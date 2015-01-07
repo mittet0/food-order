@@ -44,12 +44,12 @@
 		            <p:inputText id="address" value="#{regBean.address}" required="true"
 		                requiredMessage="Please Enter Your Address!"></p:inputText>
 					
-					<p:commandButton type="submit" value="Submit" onclick="PF('dlg2').show();" ajax="false" actionListener="#{regBean.setNewUser}" icon="ui-icon-check" />
+					<p:commandButton type="submit" value="Submit" onclick="PF('dlg2').show();return false" ajax="false" actionListener="#{regBean.setNewUser}" icon="ui-icon-check" />
 		            <p:commandButton type="reset" value="Reset" icon="ui-icon-closethick"/>
 		            <p:dialog header="Successful registration!" widgetVar="dlg2" modal="true" height="100" closable="false">
 					    <h:outputText value=" You will be redirected to the login page!" />
 					    <f:facet name="footer">
-			                <p:commandButton value="OK" ajax="false" action="login" />
+			                <p:commandButton value="OK" ajax="false" action="login?faces-redirect=true" />
 			            </f:facet>
 					</p:dialog> 
 		        </p:panelGrid>

@@ -49,4 +49,9 @@ public class UserView {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage("Welcome " + username + " " + password));
     }
+	
+	public void login() {
+		
+	}
+	
 }

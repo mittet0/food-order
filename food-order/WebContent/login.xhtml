@@ -10,24 +10,31 @@
 <h:body>
 <ui:composition template="/WEB-INF/templates/basic-template.xhtml">
 	<ui:define name="content">
+	<h:form>
 		<h:panelGrid style="margin: 0 auto"  columns="4" cellpadding="5">
 	     <p:panel id="panel">
+	     
+			
 	        <p:outputLabel style="font-weight:bold" for="username" value="Username:" />
 	        <p:inputText id="username" value="#{userView.username}" required="true" label="username">
-	            <f:validateLength minimum="3" />
 	        </p:inputText>
 	        <p:message for="username" display="icon" />
 	
 	        <p:outputLabel style="font-weight:bold" for="password" value="Password:" />
 	        <p:inputText id="password" value="#{userView.password}" label="Password" required="true">
-	            <f:validateLength minimum="3" />
-	            <p:ajax update="password" event="keyup" />
 	        </p:inputText>
-	        <p:message for="password" id="password" display="icon" />
+	        <p:message for="password" class="password" display="icon" />
 			
-			<p:commandButton value="Login"  update="panel" actionListener="#{userView.save}" icon="ui-icon-check" />
+			<p:commandButton type="submit" value="Login" onclick="PF('dlg1').show(); return false;" ajax="false" actionListener="#{userView.login}" icon="ui-icon-check" />
+		 	<p:dialog header="Successful login!" widgetVar="dlg1" showEffect="explode" hideEffect="bounce" height="100" closable="false">
+			    <h:outputText value=" You will be redirected to the home page!" />
+			    <f:facet name="footer">
+	                <p:commandButton value="OK" ajax="false" action="home?faces-redirect=true" />
+	            </f:facet>
+			</p:dialog> 
 	    </p:panel>
 	   </h:panelGrid>
+	    </h:form>
 	  </ui:define>
 	</ui:composition>
 </h:body>
