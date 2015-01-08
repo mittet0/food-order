@@ -28,7 +28,9 @@ public class LoginFilter implements Filter {
 
 		if (((HttpServletRequest) request).getSession().getAttribute(
 	        UserView.AUTH_KEY) == null) {
-	      ((HttpServletResponse) response).sendRedirect("/login?faces-redirect=true");
+	      ((HttpServletResponse) response).sendRedirect(
+	    		  ((HttpServletRequest)request)
+	    		  .getContextPath() + "/index.xhtml?faces-redirect=true");
 	    } else {
 	      chain.doFilter(request, response);
 	    }
