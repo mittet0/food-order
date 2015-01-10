@@ -5,6 +5,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import com.edd.food.jdbc.UserJDBCDriver;
+
 @ManagedBean
 @SessionScoped
 public class UserView {
@@ -53,7 +55,7 @@ public class UserView {
 	
 	public String login() {
 		//must be added logic to evaluate user from the database
-		 if (username.equals("mitko")) {
+		 if (new UserJDBCDriver().isUserExist(username, password)) {
 			 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
 				        AUTH_KEY, username);
 			 return "/restricted/home"; 
@@ -76,5 +78,4 @@ public class UserView {
 	        .remove(AUTH_KEY);
 	    return "/index?faces-redirect=true";
 	}
-	
 }

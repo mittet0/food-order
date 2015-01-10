@@ -1,7 +1,11 @@
 package com.edd.food.beans;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
 
 import com.edd.food.jdbc.UserJDBCDriver;
 
@@ -70,7 +74,13 @@ public class RegistrationBean {
 	
 	public void setNewUser() {
 		UserJDBCDriver userDriver = new UserJDBCDriver();
-		
-		userDriver.addNewUser(userName, name, password, address, phoneNumber, email);
+		if (userDriver.checkIfUserExist(userName)) {
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Username is in use! Please specify another one!", ""));
+		} else if( userDriver
+				.addNewUser(userName, name, password, address, phoneNumber, email)) {
+			RequestContext.getCurrentInstance().execute("PF('dlg2').show()");
+		}
 	}
 }

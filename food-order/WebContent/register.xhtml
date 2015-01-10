@@ -5,54 +5,59 @@
     xmlns:f="http://java.sun.com/jsf/core"  
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
+    
 	<ui:composition template="/WEB-INF/templates/basic-template.xhtml">
 		<ui:define name="content">
 		
 			<h:form>
-		        <h:messages errorClass="errorMessage" infoClass="infoMessage"
-		            warnClass="warnMessage"></h:messages>
 		        <div align="center">
 		        	<p:outputLabel value="Registration Form" style="font-weight:bold;font-size:30px;"></p:outputLabel>
 		        </div>
-		        <p:messages id="messages" showDetail="true" autoUpdate="true" />
 		        <p:panelGrid id="panel" columns="2" style="margin: 0 auto">
 		            <p:outputLabel value="Username :"></p:outputLabel>
 		            <p:inputText id="username" value="#{regBean.userName}"
-		                required="true" requiredMessage="Please Enter Username!" label="username">
+		                required="true" requiredMessage="Please enter Username!" label="username">
 		            	<f:validateLength minimum="3" />
 		            </p:inputText>
 		 
 		            <p:outputLabel value="Password :"></p:outputLabel>
 		            <p:password id="password" value="#{regBean.password}" match="confirmPassword"
-		                required="true" requiredMessage="Please Enter Password!" label="Password" feedback="true">
+		                required="true" requiredMessage="Please enter Password!" label="Password" feedback="true">
 		            </p:password>
 		                
 		            <p:outputLabel value="Confirm Password :"></p:outputLabel>
-		            <p:password id="confirmPassword" label="confirmation password" required="true"></p:password>
+		            <p:password id="confirmPassword" requiredMessage="Please confirm your Password!" label="confirmation password" required="true"></p:password>
 		 
 		            <p:outputLabel value="Name :"></p:outputLabel>
 		            <p:inputText id="name" value="#{regBean.name}"
-		                required="true" requiredMessage="Please Enter Your Name!"></p:inputText>
+		                required="true" requiredMessage="Please enter your name!"></p:inputText>
+		 
+		            <p:outputLabel value="Phone number :"></p:outputLabel>
+		            <p:inputText id="phoneNumber" value="#{regBean.phoneNumber}"
+		                required="true" requiredMessage="Please enter your phone number!" validatorMessage="Invalid phone number! Please specify only diggits!">
+		            	<f:validateRegex pattern="^\d+$" />
+		            </p:inputText>
 		 
 		            <p:outputLabel value="Email :"></p:outputLabel>
 		            <p:inputText id="email" value="#{regBean.email}" required="true"
-		                requiredMessage="Please Enter Your Email!" validatorMessage="Invalid email format">
+		                requiredMessage="Please enter your Email!" validatorMessage="Invalid email format!">
 		            	<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 		            </p:inputText>
 		 	 
 		            <p:outputLabel value="Address :"></p:outputLabel>
 		            <p:inputText id="address" value="#{regBean.address}" required="true"
-		                requiredMessage="Please Enter Your Address!"></p:inputText>
+		                requiredMessage="Please enter your Address!"></p:inputText>
 					
-					<p:commandButton type="submit" value="Submit" onclick="PF('dlg2').show();return false" ajax="false" actionListener="#{regBean.setNewUser}" icon="ui-icon-check" />
-		            <p:commandButton type="reset" value="Reset" icon="ui-icon-closethick"/>
-		            <p:dialog header="Successful registration!" widgetVar="dlg2" modal="true" height="100" closable="false">
+				    <p:commandButton value="Back" action="index?faces-redirect=true" ajax="false" immediate="true" icon="ui-icon-arrowreturnthick-1-w" />
+		        	<p:commandButton type="submit" value="Submit" actionListener="#{regBean.setNewUser}" ajax="false" icon="ui-icon-check" />
+		            <p:dialog id="dialog" header="Successful registration!" widgetVar="dlg2" modal="true" height="100" closable="false">
 					    <h:outputText value=" You will be redirected to the login page!" />
 					    <f:facet name="footer">
-			                <p:commandButton value="OK" ajax="false" action="login?faces-redirect=true" />
+			                <p:commandButton value="OK" ajax="false" action="login" immediate="true" />
 			            </f:facet>
-					</p:dialog> 
-		        </p:panelGrid>
+					</p:dialog>
+				<p:messages  id="messages" showDetail="false" autoUpdate="true" />
+		 	    </p:panelGrid>
 		    </h:form>
 		</ui:define>
 	</ui:composition>
