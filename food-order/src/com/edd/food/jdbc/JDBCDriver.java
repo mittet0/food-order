@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
+import com.edd.food.beans.FoodBean;
+
 public class JDBCDriver {
 		
    // JDBC driver name and database URL
@@ -14,11 +18,12 @@ public class JDBCDriver {
    //  Database credentials
    public static final String USER = "user";
    public static final String PASS = "123";
-
+   private static Logger log = Logger.getLogger(JDBCDriver.class);
+   
    //connects to DB and returns result from the sqlStatement
    public ResultSet executeSQLStatement(String sqlStatement) {
 	   ResultSet rs = null;
-	   System.out.println("Connecting to database...");
+	   log.debug("Connecting to database...");
 	   try {
 		    Class.forName("org.apache.derby.jdbc.ClientDriver");
 	    	Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -30,7 +35,7 @@ public class JDBCDriver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	   System.out.println("End of SQL execution");
+	   log.debug("End of SQL execution");
 	   return rs;
 	}
 }
