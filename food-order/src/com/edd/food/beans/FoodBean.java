@@ -39,6 +39,36 @@ public class FoodBean implements Serializable {
 
 	private List <Food> selectedFoods = new ArrayList<Food>();
 	
+	String foodName;
+	
+	String foodDescription;
+	
+	Long foodCost;
+	
+	public String getFoodName() {
+		return foodName;
+	}
+
+	public void setFoodName(String foodName) {
+		this.foodName = foodName;
+	}
+
+	public String getFoodDescription() {
+		return foodDescription;
+	}
+
+	public void setFoodDescription(String foodDescription) {
+		this.foodDescription = foodDescription;
+	}
+
+	public Long getFoodCost() {
+		return foodCost;
+	}
+
+	public void setFoodCost(Long foodCost) {
+		this.foodCost = foodCost;
+	}
+	
 	public void setSelectedFoods(List<Food> selectedFoods) {
 		this.selectedFoods = selectedFoods;
 	}
@@ -145,5 +175,17 @@ public class FoodBean implements Serializable {
 		if(isSuccessful) {
 			FacesContext.getCurrentInstance().addMessage("growlBuy", new FacesMessage("Successful order!") );
 		}
-	} 
+	}
+	
+	public void addFood() {
+		Food food = new Food(this.foodName, this.foodDescription, this.foodCost);
+		FoodJDBCDriver foodJDBC = new FoodJDBCDriver();
+		foodJDBC.addFood(food);	
+	}
+	
+	public void deleteFood(ActionEvent actionEvent) {
+		String foodName = (String) actionEvent.getComponent().getAttributes().get("foodName");
+		FoodJDBCDriver foodJDBC = new FoodJDBCDriver();
+		foodJDBC.deleteFood(foodName);
+	}
 }

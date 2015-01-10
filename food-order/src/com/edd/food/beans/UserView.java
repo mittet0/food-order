@@ -58,7 +58,11 @@ public class UserView {
 		 if (new UserJDBCDriver().isUserExist(username, password)) {
 			 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
 				        AUTH_KEY, username);
-			 return "/restricted/home"; 
+			 if (new UserJDBCDriver().isUserAdmin(username)){
+				 return "/restricted/admin";
+			 } else {
+				 return "/restricted/home"; 
+			 }	
 		 } else {
 			 FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 		        .remove(AUTH_KEY);
