@@ -126,40 +126,7 @@ public class FoodBean implements Serializable {
 		log.info("Selected food removed");
 	}
 	
-//	public List <Food> removeUseless(String foodName) {
-//		List <Food> selectedFood = (List <Food>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedFood");
-//		//List <Food> cleanList = new ArrayList <Food>();
-//		Iterator <Food> iterator = selectedFood.iterator();
-//		while (iterator.hasNext()) {
-//		   Food food = iterator.next();
-//		   if (food.getName().equalsIgnoreCase(foodName)) {
-//			   iterator.remove();
-//		   } 
-//		}
-//		return selectedFood;
-//	}
-	
-//	public void onQuantityChange(AjaxBehaviorEvent event) {
-//		selectedFoods = (List <Food>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedFood");
-////		UIOutput ui = ((UIOutput)event.getSource()).getValue();
-//		String foodName = (String) event.getComponent().getAttributes().get("foodName");
-//		String foodDescription = (String) event.getComponent().getAttributes().get("foodDescription");
-//		Long foodCost = (Long) event.getComponent().getAttributes().get("foodCost");
-//		int foodQuantity = (Integer) event.getComponent().getAttributes().get("quantity"); 
-//		Food selectedFood = new Food();
-//		selectedFood.setName(foodName);
-//		selectedFood.setDescription(foodDescription);
-//		selectedFood.setCost(foodCost);
-//		selectedFood.setQuantity(foodQuantity);
-//		
-//		Iterator <Food> iterator = selectedFoods.iterator();
-//		while (iterator.hasNext()) {
-//		   Food food = iterator.next();
-//		   if (food.getName().equalsIgnoreCase(foodName)) {
-//			   count++;
-//			   iterator.remove();
-//		   } 
-//		}
-//		
-//	}
+	public void addPurchase() {
+		//TODO
+	} 
 }
