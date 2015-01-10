@@ -8,6 +8,7 @@ public class Food implements Serializable {
 	private String name;
 	private String description;
 	private Long cost;
+	private String category;
 	private int quantity;
 	
 	public int getQuantity() {
@@ -15,6 +16,9 @@ public class Food implements Serializable {
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	public void incrementQuantity() {
+		this.quantity++;
 	}
 	public Long getCost() {
 		return cost;
@@ -41,6 +45,15 @@ public class Food implements Serializable {
 		this.name = name;
 		this.description = description;
 		this.cost = cost;
+	}
+	public void decrementQuality() {
+		this.quantity--;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }
 

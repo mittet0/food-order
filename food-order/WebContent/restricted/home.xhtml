@@ -8,34 +8,114 @@
 <h:body>	
 <ui:composition template="/WEB-INF/templates/basic-template.xhtml">
 	<ui:define name="content">
-	<h:form>  
-    <p:growl id="messages"/>
- <p:tieredMenu style="width:200px">
-        <p:submenu label="Menu" icon="ui-icon-refresh">
-            <p:menuitem value="Deserts" actionListener="#{navigationBean.forwardToHome}" update="messages" icon="ui-icon-document" />
-            <p:menuitem value="Vegetarian dishes" actionListener="#{navigationBean.forwardToHome}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
-            <p:menuitem value="Main dishes" actionListener="#{navigationBean.forwardToHome}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
-            <p:menuitem value="Salads" actionListener="#{navigationBean.forwardToHome}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
-            <p:menuitem value="Appetizers" actionListener="#{navigationBean.forwardToHome}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
-            <p:menuitem value="Quick snacks" actionListener="#{navigationBean.forwardToHome}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
-        </p:submenu>
-        <p:submenu label="Profile" icon="ui-icon-newwin">
-            <p:menuitem value="Edit" actionListener="#{navigationBean.forwardToHome}" update="messages" ajax="false" icon="ui-icon-close" />
-        </p:submenu>
-        <p:separator />
-        <p:submenu label="Navigations" icon="ui-icon-extlink">
-            <p:submenu label="Prime Links">
-                <p:menuitem value="Prime" url="http://www.prime.com.tr" title="xxx" />
-                <p:menuitem value="PrimeFaces" url="http://www.primefaces.org" />
-            </p:submenu>
-            <p:menuitem value="Logout" outcome="/index" />
-        </p:submenu>
-    </p:tieredMenu>
-    
-        <p:commandButton value="Logout" action="#{userView.logout}" ajax="false"/>
- 
-</h:form>
-	</ui:define>
-</ui:composition>
+	<h:form>
+	  <p:growl id="messages"/>
+	    <p:menubar>
+	        <f:facet name="options">
+	            <p:commandButton type="button" value="Profile" icon="ui-icon-person" />
+	            <p:commandButton action="#{userView.logout}" ajax="false" value="Logout" icon="ui-icon-extlink" />
+	        </f:facet>
+	    </p:menubar>
+	</h:form>
+	<h:form id="form">
+	<table>
+		<tr>
+			<td>
+				<p:menu>
+		        	<p:submenu label="Menu">
+			            <p:menuitem value="Main Dishes" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
+			            	<f:attribute name="category" value="maindishes"/>
+			            </p:menuitem>
+			            <p:menuitem value="Starters" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
+			            	<f:attribute name="category" value="starters"/>
+			            </p:menuitem>
+			            <p:menuitem value="Soups" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
+			            	<f:attribute name="category" value="soups"/>
+			            </p:menuitem>
+			            <p:menuitem value="Veg foods" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
+			            	<f:attribute name="category" value="veg"/>
+			            </p:menuitem>
+			            <p:menuitem value="Salads" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
+			            	<f:attribute name="category" value="salads"/>
+			            </p:menuitem>
+			            <p:menuitem value="Deserts" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
+			            	<f:attribute name="category" value="deserts"/>
+			            </p:menuitem>
+			        	<p:menuitem value="Breads" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
+			            	<f:attribute name="category" value="breads"/>
+			            </p:menuitem>
+			        </p:submenu>
+		    	</p:menu>
+			</td>
+			<td style="padding-left: 25px;padding-right: 25px;">
+				<div style="margin-top: 0px;">
+				<p:commandButton actionListener="#{foodBean.cartBtnAction}" id="cartBtn" icon="ui-icon-cart" type="button" />
+				    <p:overlayPanel id="selectedFoodPanel" for="cartBtn" hideEffect="fade" dynamic="true" style="width:600px">
+				        <p:dataTable id="selectedFoodTable" value="#{foodBean.selectedFoods}" var="selectedFood">
+				            <p:column headerText="Food Name">
+				                <h:outputText value="#{selectedFood.name}" />
+				            </p:column>
+				 
+				            <p:column headerText="Food Cost">
+				                <h:outputText value="#{selectedFood.cost} лв." />
+				            </p:column>
+				 
+				            <p:column headerText="Quantity">
+				                <h:outputText value="#{selectedFood.quantity}"/>
+				            </p:column>
+				 
+				            <p:column headerText="Remove">
+				                <p:commandButton actionListener="#{foodBean.removeFoodAction}" id="removeBtn" update="@this :form:selectedFoodTable" icon="ui-icon-circle-minus" title="Remove" >
+				               		<f:attribute name="foodDescription" value="#{selectedFood.description}" />
+		 							<f:attribute name="foodName" value="#{selectedFood.name}" />
+		 							<f:attribute name="foodCost" value="#{selectedFood.cost}" />
+		 							<f:attribute name="foodQuantity" value="#{selectedFood.quantity}" />
+				               	</p:commandButton>
+				            </p:column>
+				        </p:dataTable>
+				        <p:commandButton id="buyCartBtn" value="Finalize deal!" />
+				    </p:overlayPanel>
+				
+				<p:dataTable id="food-table" styleClass="borderless" value="#{foodBean.foods}" var="food">
+				    <p:column>
+				        <f:facet name="header">
+				            <h:outputText value="Food Name"></h:outputText>
+				        </f:facet>
+				        <h:outputText value="#{food.name}"></h:outputText>
+				    </p:column>
+				    <p:column>
+				        <f:facet name="header">
+				            <h:outputText value="Food Description"></h:outputText>
+				        </f:facet>
+				        <h:outputText value="#{food.description}"></h:outputText>
+				    </p:column>
+				    <p:column>
+				        <f:facet name="header">
+				            <h:outputText value="Food Cost"></h:outputText>
+				        </f:facet>
+				        <h:outputText value="#{food.cost} лв."></h:outputText>
+				    </p:column>
+				    <p:column>
+				        <f:facet name="header">
+				            <h:outputText value="Buy"></h:outputText>
+				        </f:facet>
+						<p:commandButton actionListener="#{foodBean.addToCart}" update="@this :form:selectedFoodTable" icon="ui-icon-check" title="Buy">
+	 							<f:attribute name="foodDescription" value="#{food.description}" />
+	 							<f:attribute name="foodName" value="#{food.name}" />
+	 							<f:attribute name="foodCost" value="#{food.cost}" />
+	 							<f:attribute name="foodQuantity" value="#{food.quantity}" />
+	 					</p:commandButton>	
+				    </p:column>
+					</p:dataTable>
+					</div>
+			</td>
+		</tr>
+	</table>
+	 
+	
+		</h:form>
+		
+		</ui:define>
+	</ui:composition>
 </h:body> 
 </html>  

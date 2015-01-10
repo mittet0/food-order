@@ -6,7 +6,30 @@
 		<ui:composition template="/WEB-INF/templates/basic-template.xhtml">
 			<ui:define name="content">
 				<h:form id="adminForm">
-					<p:dataTable id="adminTable" value="#{foodBean.foods}" var="food" border="1">
+					<h3>Enter new entry:</h3>
+		    		<table>
+		    		<tr>
+		    			<td>Food Name :</td>
+		    			<td><h:inputText size="20" value="#{foodBean.foodName}" /></td>
+		    		</tr>
+		    		<tr>
+		    			<td>Food Description :</td>
+		    			<td><h:inputText size="20" value="#{foodBean.foodDescription}" /></td>
+		    		</tr>
+		    		<tr>
+		    			<td>Food Cost :</td>
+		    			<td><h:inputText size="20" value="#{foodBean.foodCost}" /></td>
+		    		</tr>
+		    		<tr>
+		    			<td>Food Category :</td>
+		    			<td><h:inputText size="20" value="#{foodBean.foodCategory}" /></td>
+		    		</tr>
+		    		
+		    		</table>
+		 
+		    		<h:commandButton value="Add" action="#{foodBean.addFood}" />
+				
+				<p:dataTable id="adminTable" value="#{foodBean.foods}" var="food" border="1">
 					    <p:column>
 					        <f:facet name="header">
 					            <h:outputText value="Food Name"></h:outputText>
@@ -27,6 +50,12 @@
 					    </p:column>
 					    <p:column>
 					        <f:facet name="header">
+					            <h:outputText value="Food Category"></h:outputText>
+					        </f:facet>
+					        <h:outputText value="#{food.category}"></h:outputText>
+					    </p:column>
+					    <p:column>
+					        <f:facet name="header">
 					            <h:outputText value="Delete"></h:outputText>
 					        </f:facet>
 					        <p:commandButton actionListener="#{foodBean.deleteFood}" icon="ui-icon-close" update="@this :adminForm:adminTable">
@@ -34,23 +63,6 @@
 					        </p:commandButton>
 					    </p:column>
 					</p:dataTable>
-					<h3>Enter new entry:</h3>
-		    		<table>
-		    		<tr>
-		    			<td>Food Name :</td>
-		    			<td><h:inputText size="10" value="#{foodBean.foodName}" /></td>
-		    		</tr>
-		    		<tr>
-		    			<td>Food Description :</td>
-		    			<td><h:inputText size="20" value="#{foodBean.foodDescription}" /></td>
-		    		</tr>
-		    		<tr>
-		    			<td>Food Cost :</td>
-		    			<td><h:inputText size="5" value="#{foodBean.foodCost}" /></td>
-		    		</tr>
-		    		</table>
-		 
-		    		<h:commandButton value="Add" action="#{foodBean.addFood}" />
 				</h:form>
 			</ui:define>
 		</ui:composition> 
