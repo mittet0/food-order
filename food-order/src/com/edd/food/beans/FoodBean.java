@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIOutput;
@@ -19,8 +20,11 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.apache.log4j.*;
+import org.primefaces.context.RequestContext;
 
 import com.edd.food.jdbc.FoodJDBCDriver;
+import com.edd.food.jdbc.PurchaseJDBCDriver;
+import com.edd.food.jdbc.UserJDBCDriver;
 import com.edd.food.pojo.Food;
 
 @ManagedBean
@@ -126,7 +130,20 @@ public class FoodBean implements Serializable {
 		log.info("Selected food removed");
 	}
 	
-	public void addPurchase() {
-		//TODO
+	public void addPurchase(ActionEvent actionEvent) {
+
+		String userName = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("app.user.name");
+		selectedFoods = (List <Food>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedFood");
+		PurchaseJDBCDriver purchaseDriver = new PurchaseJDBCDriver();
+		boolean isSuccessful = false;
+				
+		Iterator <Food> iterator = selectedFoods.iterator();
+		while (iterator.hasNext()) {
+		   Food food = iterator.next();
+		   isSuccessful = purchaseDriver.addNewOrder(food, userName);
+		}
+		if(isSuccessful) {
+			FacesContext.getCurrentInstance().addMessage("growlBuy", new FacesMessage("Successful order!") );
+		}
 	} 
 }

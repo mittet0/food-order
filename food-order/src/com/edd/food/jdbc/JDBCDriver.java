@@ -18,7 +18,7 @@ public class JDBCDriver {
    //  Database credentials
    public static final String USER = "user";
    public static final String PASS = "123";
-   private static Logger log = Logger.getLogger(JDBCDriver.class);
+   protected static Logger log = Logger.getLogger(JDBCDriver.class);
    
    //connects to DB and returns result from the sqlStatement
    public ResultSet executeSQLStatement(String sqlStatement) {

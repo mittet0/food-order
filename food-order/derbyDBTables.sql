@@ -4,6 +4,7 @@ id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 food_name VARCHAR(24) NOT NULL,
 food_description VARCHAR(200),
 food_cost DOUBLE NOT NULL,
+food_category VARCHAR(200) NOT NULL
 CONSTRAINT primary_key PRIMARY KEY (id)
 ) ;
 
@@ -25,8 +26,7 @@ id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 food_name VARCHAR(40) NOT NULL,
 food_cost DOUBLE NOT NULL,
 user_name VARCHAR(20),
-user_address VARCHAR(200),
-phone_number VARCHAR(20) NOT NULL
+quantity INTEGER
 ) ;
 
 INSERT INTO FOODDB ("FOOD_NAME", "FOOD_DESCRIPTION", "FOOD_COST") values ('Musaka', 'Bulgarian traditional meal', 3)
