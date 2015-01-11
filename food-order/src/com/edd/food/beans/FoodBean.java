@@ -87,10 +87,10 @@ public class FoodBean implements Serializable {
 	}
 	
 	public List<Food> getFoods() {
-		if (foods.isEmpty()) {
+//		if (foods.isEmpty()) {
 			FoodJDBCDriver foodJdbc = new FoodJDBCDriver();
 			this.foods = foodJdbc.getFoods();
-		}
+//		}
 		return foods;
 	}
 	

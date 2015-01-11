@@ -28,7 +28,7 @@
 		    		</table>
 		 
 		    		<h:commandButton value="Add" action="#{foodBean.addFood}" />
-				
+
 				<p:dataTable id="adminTable" value="#{foodBean.foods}" var="food" border="1">
 					    <p:column>
 					        <f:facet name="header">
@@ -63,6 +63,7 @@
 					        </p:commandButton>
 					    </p:column>
 					</p:dataTable>
+					<p:commandButton value="Logout" action="#{userView.logout}" ajax="false" style="float: right;"/>
 				</h:form>
 			</ui:define>
 		</ui:composition> 
