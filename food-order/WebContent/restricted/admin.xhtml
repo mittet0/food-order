@@ -6,30 +6,41 @@
 		<ui:composition template="/WEB-INF/templates/basic-template.xhtml">
 			<ui:define name="content">
 				<h:form id="adminForm">
-					<h3>Enter new entry:</h3>
+					<p:menubar>
+				        <f:facet name="options">
+				           <p:commandButton value="Logout" action="#{userView.logout}" ajax="false" icon="ui-icon-extlink"/>
+				        </f:facet>
+				    </p:menubar>
+				    <div style="padding-left: 320px">
+					<h2>Enter new entry:</h2>
 		    		<table>
 		    		<tr>
-		    			<td>Food Name :</td>
-		    			<td><h:inputText size="20" value="#{foodBean.foodName}" /></td>
+		    			<td style="font-size: 20px"><b>Food Name :</b></td>
+		    			<td><p:inputText size="20" value="#{foodBean.foodName}" /></td>
 		    		</tr>
 		    		<tr>
-		    			<td>Food Description :</td>
-		    			<td><h:inputText size="20" value="#{foodBean.foodDescription}" /></td>
+		    			<td style="font-size: 20px"><b>Food Description :</b></td>
+		    			<td><p:inputText size="20" value="#{foodBean.foodDescription}" /></td>
 		    		</tr>
 		    		<tr>
-		    			<td>Food Cost :</td>
-		    			<td><h:inputText size="20" value="#{foodBean.foodCost}" /></td>
+		    			<td style="font-size: 20px"><b>Food Cost :</b></td>
+		    			<td><p:inputText size="20" value="#{foodBean.foodCost}" /></td>
 		    		</tr>
 		    		<tr>
-		    			<td>Food Category :</td>
-		    			<td><h:inputText size="20" value="#{foodBean.foodCategory}" /></td>
+		    			<td style="font-size: 20px"><b>Food Category :</b></td>
+		    			<td>
+		    			<p:selectOneMenu id="country" value="#{foodBean.foodCategory}" style="width:245px">
+			               <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
+			               <f:selectItems value="#{foodBean.categories}" />
+			           </p:selectOneMenu>
+		    			</td>
 		    		</tr>
 		    		
 		    		</table>
 		 
-		    		<h:commandButton value="Add" action="#{foodBean.addFood}" />
-
-				<p:dataTable id="adminTable" value="#{foodBean.foods}" var="food" border="1">
+		    		<p:commandButton value="Add" action="#{foodBean.addFood}" ajax="false" />
+		</div>
+				<p:dataTable id="adminTable" value="#{foodBean.allFoods}" var="food" border="1">
 					    <p:column>
 					        <f:facet name="header">
 					            <h:outputText value="Food Name"></h:outputText>
@@ -63,7 +74,6 @@
 					        </p:commandButton>
 					    </p:column>
 					</p:dataTable>
-					<p:commandButton value="Logout" action="#{userView.logout}" ajax="false" style="float: right;"/>
 				</h:form>
 			</ui:define>
 		</ui:composition> 

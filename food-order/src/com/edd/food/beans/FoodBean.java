@@ -31,7 +31,9 @@ public class FoodBean implements Serializable {
 
 	private List <Food> selectedFoods = new ArrayList<Food>();
 	
-	private List <Food> filteredFoods = new ArrayList<Food>();
+	private List <Food> allFoods = new ArrayList<Food>();
+	
+	private List<String> categories = new ArrayList<String>();
 	
 	String foodName;
 	
@@ -87,13 +89,23 @@ public class FoodBean implements Serializable {
 	}
 	
 	public List<Food> getFoods() {
-//		if (foods.isEmpty()) {
+		if (foods.isEmpty()) {
 			FoodJDBCDriver foodJdbc = new FoodJDBCDriver();
 			this.foods = foodJdbc.getFoods();
-//		}
+		}
 		return foods;
 	}
 	
+	public List <Food> getAllFoods() {
+		FoodJDBCDriver foodJdbc = new FoodJDBCDriver();
+		this.allFoods = foodJdbc.getFoods();
+		return allFoods;
+	}
+
+	public void setAllFoods(List <Food> allFoods) {
+		this.allFoods = allFoods;
+	}
+
 	public void filterFoods(ActionEvent actionEvent) {
 		FoodJDBCDriver foodJdbc = new FoodJDBCDriver();
 		String category = (String) actionEvent.getComponent().getAttributes().get("category");
@@ -175,7 +187,7 @@ public class FoodBean implements Serializable {
 	
 	public void addFood() {
 		Food food = new Food(this.foodName, this.foodDescription, this.foodCost);
-		food.setCategory(this.foodCategory.toLowerCase());
+		food.setCategory(this.foodCategory);
 		FoodJDBCDriver foodJDBC = new FoodJDBCDriver();
 		foodJDBC.addFood(food);	
 	}
@@ -184,5 +196,22 @@ public class FoodBean implements Serializable {
 		String foodName = (String) actionEvent.getComponent().getAttributes().get("foodName");
 		FoodJDBCDriver foodJDBC = new FoodJDBCDriver();
 		foodJDBC.deleteFood(foodName);
+	}
+
+	public List<String> getCategories() {
+		if (categories.isEmpty()) {
+			categories.add("Main dishes");
+			categories.add("Starters");
+			categories.add("Soups");
+			categories.add("Salads");
+			categories.add("Breads");
+			categories.add("Veg foods");
+			categories.add("Deserts");
+		}
+		return categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
 	}
 }

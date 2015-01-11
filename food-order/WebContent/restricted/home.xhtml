@@ -18,13 +18,14 @@
 	    </p:menubar>
 	</h:form>
 	<h:form id="form">
-	<table>
+	<table style="padding-left:170px">
 		<tr>
 			<td>
-				<p:menu>
+				<div style="padding-top: 38px">
+				<p:menu >
 		        	<p:submenu label="Menu">
 			            <p:menuitem value="Main Dishes" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
-			            	<f:attribute name="category" value="maindishes"/>
+			            	<f:attribute name="category" value="Main dishes"/>
 			            </p:menuitem>
 			            <p:menuitem value="Starters" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
 			            	<f:attribute name="category" value="starters"/>
@@ -39,17 +40,17 @@
 			            	<f:attribute name="category" value="salads"/>
 			            </p:menuitem>
 			            <p:menuitem value="Deserts" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
-			            	<f:attribute name="category" value="deserts"/>
+			            	<f:attribute name="category" value="Deserts"/>
 			            </p:menuitem>
 			        	<p:menuitem value="Breads" actionListener="#{foodBean.filterFoods}" update="@this :form:food-table">
 			            	<f:attribute name="category" value="breads"/>
 			            </p:menuitem>
 			        </p:submenu>
 		    	</p:menu>
+		    </div>	
 			</td>
-			<td style="padding-left: 25px;padding-right: 25px;">
-				<div style="margin-top: 0px;">
-				<p:commandButton actionListener="#{foodBean.cartBtnAction}" id="cartBtn" icon="ui-icon-cart" type="button" />
+			<td style="padding-left: 25px;padding-right: 155px; position: fixed;">
+				<p:commandButton style="position:relative " actionListener="#{foodBean.cartBtnAction}" id="cartBtn" icon="ui-icon-cart" type="button" />
 				    <p:overlayPanel id="selectedFoodPanel" for="cartBtn" hideEffect="fade" dynamic="true" style="width:600px">
 				        <p:dataTable id="selectedFoodTable" value="#{foodBean.selectedFoods}" var="selectedFood">
 				            <p:column headerText="Food Name">
@@ -107,8 +108,7 @@
 	 					</p:commandButton>	
 				    </p:column>
 					</p:dataTable>
-					</div>
-			</td>
+				</td>
 		</tr>
 	</table>
 	 

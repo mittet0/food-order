@@ -6,16 +6,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     
-<h:head></h:head>
-<h:body>
 <ui:composition template="/WEB-INF/templates/basic-template.xhtml">
 	<ui:define name="content">
-	<h:form>
+	<h:form style="height:400px; width:400px; padding-left: 500px; padding-top: 200px">
 		<p:panel id="panel">
 	    <h:panelGrid style="margin: 0 auto"  columns="2" cellpadding="5">
 		 	<p:outputLabel style="font-weight:bold" for="username" value="Username:" />
 	        <p:inputText id="username" value="#{userView.username}" required="true" label="username" />
-	        
+	       
 	        <p:outputLabel style="font-weight:bold" for="password" value="Password:" />
 	        <p:password id="password" value="#{userView.password}" required="true" label="password" />
 	        
@@ -31,5 +29,4 @@
 	</h:form>
 	</ui:define>
 </ui:composition>
-</h:body>
 </html>
