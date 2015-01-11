@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import com.edd.food.jdbc.UserJDBCDriver;
+import com.edd.food.pojo.User;
 
 @ManagedBean(name="regBean")
 @SessionScoped()
@@ -74,13 +75,22 @@ public class RegistrationBean {
 	
 	public void setNewUser() {
 		UserJDBCDriver userDriver = new UserJDBCDriver();
+		User newUser = new User(name, userName, password, address, phoneNumber, email);
 		if (userDriver.checkIfUserExist(userName)) {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"Username is in use! Please specify another one!", ""));
-		} else if( userDriver
-				.addNewUser(userName, name, password, address, phoneNumber, email)) {
+		} else if( userDriver.addNewUser(newUser)) {
 			RequestContext.getCurrentInstance().execute("PF('dlg2').show()");
+		}
+	}
+	
+	public void editUser() {
+		String userNameForEdit = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("app.user.name");
+		UserJDBCDriver userDriver = new UserJDBCDriver();
+		User editedUser = new User(name, userNameForEdit, password, address, phoneNumber);
+		if( userDriver.editUser(editedUser)) {
+			RequestContext.getCurrentInstance().execute("PF('dlg3').show()");
 		}
 	}
 }

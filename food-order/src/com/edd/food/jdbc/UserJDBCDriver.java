@@ -9,35 +9,40 @@ import java.sql.SQLException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import com.edd.food.pojo.User;
 import com.edd.utils.BCrypt;
 
 public class UserJDBCDriver extends JDBCDriver {
 
 	private static final String ADD_NEW_USER = "INSERT INTO USERS (\"USER_NAME\", \"NAME\", \"PASSWORD\", \"USER_ADDRESS\", \"PHONE_NUMBER\", \"EMAIL\") values (?, ?, ?, ?, ?, ?)";
+	
 	private static final String SELECT_USER_BY_USERNAME_AND_PASSWORD = "SELECT password FROM USERS WHERE USER_NAME=?";
+	
 	private static final String SELECT_USER = "SELECT name FROM USERS WHERE USER_NAME=?";
+	
 	private static final String SELECT_USER_ADMIN = "SELECT is_admin_role FROM USERS WHERE USER_NAME=?";
+	
+	private static final String UPDATE_USER = "UPDATE USERS SET \"PASSWORD\"=?, \"NAME\"=?, \"USER_ADDRESS\"=?, \"PHONE_NUMBER\"=? WHERE \"USER_NAME\"=?";
 
-	public boolean addNewUser(String userName, String name, String password,
-			String address, String phoneNumber, String email) {
-		System.out.println("Connecting to database...");
+	public boolean addNewUser(User user) {
+		log.debug(CONNECTING);
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			Class.forName(DERBY_JDBC_DRIVER);
 			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			PreparedStatement stmt = conn.prepareStatement(ADD_NEW_USER);
-			stmt.setString(1, userName);
-			stmt.setString(2, name);
-			stmt.setString(3, BCrypt.hashpw(password, BCrypt.gensalt()));
-			stmt.setString(4, address);
-			stmt.setString(5, phoneNumber);
-			stmt.setString(6, email);
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getName());
+			stmt.setString(3, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+			stmt.setString(4, user.getAddress());
+			stmt.setString(5, user.getPhoneNumber());
+			stmt.setString(6, user.getEmail());
 			
 			int result = stmt.executeUpdate();
 			if (result == 1) {
-				System.out.println("Successfully added a new user");
+				log.info("Successfully added a new user");
 			    FacesContext.getCurrentInstance()
 			    	.addMessage(null, new FacesMessage("Successful registration!") );
-			    System.out.println("End of SQL execution");
+			    log.debug(END_OF_EXECUTION);
 			    return true;
 			}
 		} catch (SQLException e) {
@@ -46,7 +51,7 @@ public class UserJDBCDriver extends JDBCDriver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("End of SQL execution");
+		log.debug(END_OF_EXECUTION);
 	    FacesContext.getCurrentInstance()
     		.addMessage(null, new FacesMessage(
     			FacesMessage.SEVERITY_ERROR,"Unsuccessful registration!", ""));
@@ -54,15 +59,15 @@ public class UserJDBCDriver extends JDBCDriver {
 	}
 	
 	public boolean checkIfUserExist(String userName) {
-		System.out.println("Connecting to database...");
+		log.debug(CONNECTING);
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			Class.forName(DERBY_JDBC_DRIVER);
 			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			PreparedStatement stmt1 = conn.prepareStatement(SELECT_USER);
 			stmt1.setString(1, userName);
 			ResultSet res = stmt1.executeQuery();
 			while(res.next()) {
-				System.out.println("End of SQL execution");
+				log.debug(END_OF_EXECUTION);
 				return true;
 			}
 		} catch (SQLException e) {
@@ -70,23 +75,23 @@ public class UserJDBCDriver extends JDBCDriver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("End of SQL execution");
+		log.debug(END_OF_EXECUTION);
 		return false;
 	}
 
 	public boolean isUserExist(String userName, String password) {
-		System.out.println("Connecting to database...");
+		log.debug(CONNECTING);
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			Class.forName(DERBY_JDBC_DRIVER);
 			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			PreparedStatement stmt = conn.prepareStatement(SELECT_USER_BY_USERNAME_AND_PASSWORD);
 			stmt.setString(1, userName);
 			ResultSet result = stmt.executeQuery();
 			while (result.next()){
-				System.out.println("Validating user credentials ...");
+				log.info("Validating user credentials ...");
 				if (BCrypt.checkpw(password, result.getString("password"))) {
-					System.out.println("User credential are valid.");
-					System.out.println("End of SQL execution");
+					log.info("User credential are valid.");
+					log.debug(END_OF_EXECUTION);
 					return true;
 				}
 			}
@@ -95,22 +100,22 @@ public class UserJDBCDriver extends JDBCDriver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("End of SQL execution");
+		log.debug(END_OF_EXECUTION);
 		return false;
 	}
 	public boolean isUserAdmin(String userName) {
-		System.out.println("Connecting to database...");
+		log.debug(CONNECTING);
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			Class.forName(DERBY_JDBC_DRIVER);
 			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			PreparedStatement stmt = conn.prepareStatement(SELECT_USER_ADMIN);
 			stmt.setString(1, userName);
 			ResultSet result = stmt.executeQuery();
 			while (result.next()){
-				System.out.println("Validating user credentials ...");
+				log.info("Validating user credentials ...");
 				if (result.getInt("is_admin_role") == 1) {
 					log.info("The user is admin.");
-					log.debug("End of SQL execution");
+					log.debug(END_OF_EXECUTION);
 					return true;
 				}
 			}
@@ -119,7 +124,40 @@ public class UserJDBCDriver extends JDBCDriver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		log.debug("End of SQL execution");
+		log.debug(END_OF_EXECUTION);
 		return false;
+	}
+	
+	public boolean editUser(User user) {
+		log.debug(CONNECTING);
+		try {
+			Class.forName(DERBY_JDBC_DRIVER);
+			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			PreparedStatement stmt = conn.prepareStatement(UPDATE_USER);
+			stmt.setString(1, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+			stmt.setString(2, user.getName());
+			stmt.setString(3, user.getAddress());
+			stmt.setString(4, user.getPhoneNumber());
+			stmt.setString(5, user.getUsername());
+			
+			int result = stmt.executeUpdate();
+			if (result == 1) {
+				log.info("Successfully edited a new user");
+			    FacesContext.getCurrentInstance()
+			    	.addMessage(null, new FacesMessage("Successful Edit!") );
+			    log.debug(END_OF_EXECUTION);
+			    return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		log.debug(END_OF_EXECUTION);
+	    FacesContext.getCurrentInstance()
+    		.addMessage(null, new FacesMessage(
+    			FacesMessage.SEVERITY_ERROR,"Unsuccessful edit!", ""));
+	    return false;
 	}
 }

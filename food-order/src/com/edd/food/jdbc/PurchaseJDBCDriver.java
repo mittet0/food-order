@@ -14,9 +14,9 @@ public class PurchaseJDBCDriver extends JDBCDriver {
 	private static final String ADD_NEW_ORDER = "INSERT INTO ORDERS (\"FOOD_NAME\", \"FOOD_COST\", \"USER_NAME\", \"QUANTITY\") values (?, ?, ?, ?)";
 
 	public boolean addNewOrder(Food food, String userName) {
-		log.debug("Connecting to database...");
+		log.debug(CONNECTING);
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			Class.forName(DERBY_JDBC_DRIVER);
 			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			PreparedStatement stmt = conn.prepareStatement(ADD_NEW_ORDER);
 			stmt.setString(1, food.getName());
@@ -29,7 +29,7 @@ public class PurchaseJDBCDriver extends JDBCDriver {
 				log.info("Successfully added a new order");
 			    FacesContext.getCurrentInstance()
 			    	.addMessage(null, new FacesMessage("Successful order!") );
-			    log.debug("End of SQL execution");
+			    log.debug(END_OF_EXECUTION);
 			    return true;
 			}
 		} catch (SQLException e) {
@@ -38,6 +38,7 @@ public class PurchaseJDBCDriver extends JDBCDriver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		log.debug(END_OF_EXECUTION);
 	    FacesContext.getCurrentInstance()
     		.addMessage(null, new FacesMessage(
     			FacesMessage.SEVERITY_ERROR,"Unsuccessful registration!", ""));

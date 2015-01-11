@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"> 
+     
+		<ui:composition template="/WEB-INF/templates/basic-template.xhtml">
+			<ui:define name="content">
+				<h:form>
+			        <div align="center">
+			        	<p:outputLabel value="Edit Profile" style="font-weight:bold;font-size:30px;"></p:outputLabel>
+			        </div>
+			        <p:panelGrid id="panel" columns="2" style="margin: 0 auto">
+			 
+			            <p:outputLabel value="Password :"></p:outputLabel>
+			            <p:password id="password1" value="#{regBean.password}" match="confirmPassword1"
+			                required="true" requiredMessage="Please enter Password!" label="Password" feedback="true">
+			            </p:password>
+			                
+			            <p:outputLabel value="Confirm Password :"></p:outputLabel>
+			            <p:password id="confirmPassword1" requiredMessage="Please confirm your Password!" label="confirmation password" required="true"></p:password>
+			 
+			            <p:outputLabel value="Name :"></p:outputLabel>
+			            <p:inputText id="name1" value="#{regBean.name}"
+			                required="true" requiredMessage="Please enter your name!"></p:inputText>
+			 
+			            <p:outputLabel value="Phone number :"></p:outputLabel>
+			            <p:inputText id="phoneNumber1" value="#{regBean.phoneNumber}"
+			                required="true" requiredMessage="Please enter your phone number!" validatorMessage="Invalid phone number! Please specify only diggits!">
+			            	<f:validateRegex pattern="^\d+$" />
+			            </p:inputText>
+			 			 	 
+			            <p:outputLabel value="Address :"></p:outputLabel>
+			            <p:inputText id="address1" value="#{regBean.address}" required="true"
+			                requiredMessage="Please enter your Address!"></p:inputText>
+						
+					    <p:commandButton value="Back" action="home?faces-redirect=true" ajax="false" immediate="true" icon="ui-icon-arrowreturnthick-1-w" />
+			        	<p:commandButton type="submit" value="Submit" actionListener="#{regBean.editUser}" ajax="false" icon="ui-icon-check" />
+			            <p:dialog id="dialog" header="Successful profile edit!" widgetVar="dlg3" modal="true" height="100" closable="false">
+						    <h:outputText value=" You will be redirected to the home page!" />
+						    <f:facet name="footer">
+				                <p:commandButton value="OK" ajax="false" action="home" immediate="true" />
+				            </f:facet>
+						</p:dialog>
+					<p:messages  id="messages" showDetail="false" autoUpdate="true" />
+			 	    </p:panelGrid>
+			    </h:form>
+			</ui:define>
+		</ui:composition> 
+</html>  

@@ -22,10 +22,12 @@ public class FoodJDBCDriver extends JDBCDriver {
 	
 	private static String FOOD_BY_CATEGORY = "SELECT * FROM FOODDB WHERE FOOD_CATEGORY=?";
 	
+	private static String SELECT_ALL_FOODS = "SELECT * FROM foodDB";
+	
 	public List<Food> getFoods () {
 		List<Food> foods = new ArrayList<Food>();
 		JDBCDriver jdbc = new JDBCDriver();
-		ResultSet rs = jdbc.executeSQLStatement("SELECT * FROM foodDB");
+		ResultSet rs = jdbc.executeSQLStatement(SELECT_ALL_FOODS);
 		try {
 			while (rs.next()) {
 				Food usr = new Food();
@@ -43,16 +45,16 @@ public class FoodJDBCDriver extends JDBCDriver {
 	
 	public List<Food> getFoods(String category) {
 		List<Food> foods = new ArrayList<Food>();
-		System.out.println("Connecting to database...");
+		log.debug(CONNECTING);
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			Class.forName(DERBY_JDBC_DRIVER);
 			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			PreparedStatement stmt = conn.prepareStatement(FOOD_BY_CATEGORY);
 			stmt.setString(1, category);
-			System.out.println("category: " + category);
+			log.info("category: " + category);
 			
 			ResultSet rs = stmt.executeQuery();
-			System.out.println("Result...");
+			log.debug("Result...");
 			
 			while (rs.next()) {
 				Food usr = new Food();
@@ -60,24 +62,22 @@ public class FoodJDBCDriver extends JDBCDriver {
 				usr.setDescription(rs.getString("food_description"));
 				usr.setCost(rs.getLong("food_cost"));
 				usr.setCategory(rs.getString("food_category"));
-				foods.add(usr);
-				System.out.println(usr.getName() + usr.getCategory());
-				
+				foods.add(usr);				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} 
-		System.out.println("End sql execution...");
+		log.debug(END_OF_EXECUTION);
 		
 		return foods;
 	}
 	
 	public void addFood(Food food) {
-		System.out.println("Connecting to database...");
+		log.debug(CONNECTING);
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			Class.forName(DERBY_JDBC_DRIVER);
 			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			PreparedStatement stmt = conn.prepareStatement(ADD_FOOD);
 			stmt.setString(1, food.getName());
@@ -95,19 +95,19 @@ public class FoodJDBCDriver extends JDBCDriver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		log.info("End of SQL execution");
+		log.info(END_OF_EXECUTION);
 	}
 	public void deleteFood(String foodName) {
-		System.out.println("Connecting to database...");
+		log.debug(CONNECTING);
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			Class.forName(DERBY_JDBC_DRIVER);
 			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			PreparedStatement stmt = conn.prepareStatement(DELETE_FOOD);
 			stmt.setString(1, foodName);
 			
 			int result = stmt.executeUpdate();
 			if (result == 1) {
-				log.info("Successfully deleted a new food");
+				log.info("Successfully deleted a food");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -115,6 +115,6 @@ public class FoodJDBCDriver extends JDBCDriver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		log.info("End of SQL execution");
+		log.info(END_OF_EXECUTION);
 	}
 }

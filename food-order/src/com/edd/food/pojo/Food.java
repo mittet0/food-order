@@ -46,7 +46,7 @@ public class Food implements Serializable {
 		this.description = description;
 		this.cost = cost;
 	}
-	public void decrementQuality() {
+	public void decrementQuantity() {
 		this.quantity--;
 	}
 	public String getCategory() {

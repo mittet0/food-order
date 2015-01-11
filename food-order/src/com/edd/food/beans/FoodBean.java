@@ -106,15 +106,15 @@ public class FoodBean implements Serializable {
 		String foodDescription = (String) actionEvent.getComponent().getAttributes().get("foodDescription");
 		Long foodCost = (Long) actionEvent.getComponent().getAttributes().get("foodCost");
 		
-		boolean isInCard = false;
+		boolean isInCart = false;
 		for (Food food : selectedFoods) {
 			if (food.getName().equals(foodName)) {
 				food.incrementQuantity();
-				isInCard = true;
+				isInCart = true;
 				break;
 			}
 		}
-		if (!isInCard) {
+		if (!isInCart) {
 			Food foodToAdd = new Food();
 			foodToAdd.setName(foodName);
 			foodToAdd.setDescription(foodDescription);
@@ -142,7 +142,7 @@ public class FoodBean implements Serializable {
 		   Food food = iterator.next();
 		   if (food.getName().equalsIgnoreCase(foodName)) {
 			   if (foodQuantity > 1) {
-				   food.decrementQuality();
+				   food.decrementQuantity();
 				   break;
 			   } else if (foodQuantity == 1) {
 				   selectedFoods.remove(food);
